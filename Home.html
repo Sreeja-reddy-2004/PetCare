@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pawfect Care</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  </head>
+  <body>
+    <div id="main">
+      <header>
+        
+        <div class="logo">
+          <img src="logo.jpeg" alt="logo" width="90" height="60" /><b
+            >PAWFECT CARE</b
+          >
+        </div>
+        <nav>
+          <a href="#home">Home</a>
+          <a href="#about-section">About Us</a>
+          <a href="#services-section">Services</a>
+          <a href="#contact-section">Contact Us</a>
+        </nav>
+      </header>
+    </div>
+    <div class="welcome">
+      <marquee
+        ><b>Welcome to Pawfect Care – The Best Pet Care Guide!</b></marquee
+      >
+    </div>
+    
+
+    <!-- PET SELECTION SECTION -->
+    <div class="container" id="pets">
+      <h2>Select a Pet</h2>
+      <div class="pet-container">
+        <div class="pet-card" onclick="showBreeds('Dogs')">
+          <img src="dog.jpeg" alt="Dog" />
+          <h3>Dogs</h3>
+        </div>
+        <div class="pet-card" onclick="showBreeds('Cats')">
+          <img src="cat.jpg" alt="Cat" />
+          <h3>Cats</h3>
+        </div>
+        <div class="pet-card" onclick="showBreeds('Rabbits')">
+          <img src="rabbit.jpg" alt="Rabbit" />
+          <h3>Rabbits</h3>
+        </div>
+      </div>
+    </div>
+
+    <!-- Breed Selection -->
+    <div class="container" id="breeds" style="display: none">
+      <div>
+        <button class="back-button" onclick="goBackToPets()">
+          ← Back to Pets
+        </button>
+      </div>
+      <h2 id="breed-title"></h2>
+      <div class="breed-container" id="breed-list"></div>
+    </div>
+
+    <!-- Breed Info Section -->
+    <div class="container" id="info">
+      <h2 id="info-title"></h2>
+      <div class="info-card" id="breed-details"></div>
+      <button class="back-btn" onclick="goBackToBreeds()">
+        Back to Breeds
+      </button>
+    </div>
+    <section id="about-section">
+      <div class="about-container">
+        <h2>About Us</h2>
+        <p>
+          At <strong>Pawfect Care</strong>, we believe that pets are more than
+          just animals — they’re family. Our mission is to provide pet parents
+          with the right guidance, tips, and care resources to help their furry
+          (or fluffy!) friends live happy, healthy lives.
+        </p>
+        <p>
+          Whether you're a proud dog lover, a curious cat companion, or a bunny
+          enthusiast, we've got something special for every pet. From expert
+          advice on grooming and nutrition to breed-specific care tips, our goal
+          is to make pet parenting simple, joyful, and rewarding.
+        </p>
+        <p>
+          Born out of pure love for animals, <em>Pawfect Care</em> is your go-to
+          hub for trusted, compassionate, and practical pet care information.
+          We’re here to support you through every paw-some moment.
+        </p>
+        <p class="highlight">
+          Because at the end of the day, every pet deserves pawfect care. 🐾
+        </p>
+      </div>
+    </section>
+    <section id="services-section">
+      <div class="services-container">
+        <h2>Our Services</h2>
+        <div class="service-list">
+          <div class="service-card">
+            <h3>Breed-Specific Tips</h3>
+            <p>
+              Get expert care advice tailored to your pet's breed, including
+              nutrition, behavior, grooming, and more.
+            </p>
+          </div>
+          <div class="service-card">
+            <h3>Health & Wellness</h3>
+            <p>
+              Stay informed with up-to-date info on pet vaccines, vet checkups,
+              hygiene, and preventive care.
+            </p>
+          </div>
+          <div class="service-card">
+            <h3>Grooming Guidance</h3>
+            <p>
+              Learn how to keep your pet looking and feeling great with safe and
+              easy grooming routines.
+            </p>
+          </div>
+          <div class="service-card">
+            <h3>Training Support</h3>
+            <p>
+              Discover tips and resources for teaching good habits, from potty
+              training to tricks and commands.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="contact-section">
+      <div class="contact-container">
+        <h2>Contact Us</h2>
+        <p>
+          We’d love to hear from you! Whether you have questions, suggestions,
+          or just want to say hi — we’re all ears (and tails)! 🐶
+        </p>
+
+        <form class="contact-form" action="#" method="post">
+          <input type="text" name="name" id="name" placeholder="Your Name" required />
+          <input type="email" name="email" id="email" placeholder="Your Email" required />
+          <input type="text" name="phone" id="phone" placeholder="Your Phone" required />
+          <textarea name="message" id="message" rows="5" placeholder="Your Message" required></textarea>
+          <button type="submit">Send Message</button>
+        </form>        
+        <p id="formStatus" style="text-align: center; margin-top: 10px;"></p>
+      </div>
+    </section>
+    <!-- Footer Section -->
+    <footer>
+      <div class="footer-container">
+        <p>&copy; 2025 Pawfect Care. All rights reserved.</p>
+        <p>Contact us: pawfectcare@example.com</p>
+      </div>
+    </footer>
+
+    <script>
+      let currentPet = "";
+
+      const breedData = {
+        Dogs: [
+          { name: "Labrador Retriever", img: "labrador.jpg" },
+          { name: "Golden Retriever", img: "golden.jpeg" },
+          { name: "German Shepherd", img: "German.webp" },
+          { name: "Pug", img: "Pug.jpeg" },
+        ],
+        Cats: [
+          { name: "Persian", img: "persian.jpeg" },
+          { name: "Siamese", img: "siamese_cat.jpeg" },
+          { name: "Indian Billi", img: "indian_billi.jpeg" },
+          { name: "Bengal Cat", img: "bengal.jpeg" },
+        ],
+        Rabbits: [
+          { name: "New Zealand White", img: "new_zealand_white.jpeg" },
+          { name: "Holland Lop", img: "holland_lop.jpeg" },
+          { name: "Angora", img: "angora.jpeg" },
+        ],
+      };
+
+      const breedInfo = {
+        "Labrador Retriever": {
+          overview: "Friendly, loyal, and perfect for families.",
+          food: "High-protein kibble, fish oil, avoid overfeeding.",
+          grooming: "Weekly brushing, bathe every 4–6 weeks.",
+          exercise: "1-2 hours/day; loves swimming and fetch.",
+          funFact: "Labs are the most popular dog breed globally.",
+          tips: [
+            "Start obedience training early.",
+            "Use interactive toys to prevent boredom.",
+            "Regular vet checkups to monitor joint health.",
+          ],
+          link: "https://www.akc.org/dog-breeds/labrador-retriever/",
+        },
+        "Golden Retriever": {
+          overview: "Gentle, intelligent, and affectionate.",
+          food: "Balanced dry food with omega-3 and joint support.",
+          grooming: "Brush 2-3 times a week, seasonal shedding.",
+          exercise: "Needs daily walks and playtime.",
+          funFact: "Originally bred for retrieving game birds.",
+          tips: [
+            "Socialize early for friendly behavior.",
+            "Keep ears dry to prevent infection.",
+            "Reward-based training works well.",
+          ],
+          link: "https://www.akc.org/dog-breeds/golden-retriever/",
+        },
+        "German Shepherd": {
+          overview: "Intelligent, loyal, and protective.",
+          food: "High-quality dry food rich in protein and fats.",
+          grooming: "Brush twice a week; seasonal shedding.",
+          exercise: "Needs vigorous daily exercise and training.",
+          funFact: "Widely used as police and service dogs.",
+          tips: [
+            "Start obedience training from a young age.",
+            "Engage with mental stimulation games.",
+            "Ensure socialization with other pets.",
+          ],
+          link: "https://www.akc.org/dog-breeds/german-shepherd-dog/",
+        },
+        Pug: {
+          overview: "Charming, loving, and a bit mischievous.",
+          food: "Low-fat, grain-free dry food in small portions.",
+          grooming: "Regular brushing, clean face wrinkles daily.",
+          exercise: "Moderate play indoors; avoid overheating.",
+          funFact: "Pugs were bred to be lap dogs for Chinese royalty.",
+          tips: [
+            "Wipe facial folds to prevent infection.",
+            "Use harnesses instead of collars for walking.",
+            "Keep indoors during hot weather.",
+          ],
+          link: "https://www.akc.org/dog-breeds/pug/",
+        },
+        Persian: {
+          overview: "Calm and elegant lap cats.",
+          food: "Wet food, monitor dental and eye health.",
+          grooming: "Daily grooming needed.",
+          exercise: "Prefers lounging with light play.",
+          funFact: "Known for flat faces and long coats.",
+          tips: [
+            "Keep eyes clean to avoid tear staining.",
+            "Use a wide, shallow food bowl for flat faces.",
+            "Provide quiet, cozy resting areas.",
+          ],
+          link: "https://www.hillspet.com/cat-care/cat-breeds/persian",
+        },
+        Siamese: {
+          overview: "Vocal, social, and intelligent.",
+          food: "High-protein diet with plenty of water.",
+          grooming: "Minimal grooming; occasional brushing.",
+          exercise: "Very active, needs interactive toys.",
+          funFact: "Siamese cats are known for their striking blue eyes.",
+          tips: [
+            "Provide puzzle toys to keep them entertained.",
+            "Spend daily time playing and cuddling.",
+            "Monitor for dental issues early.",
+          ],
+          link: "https://www.hillspet.com/cat-care/cat-breeds/siamese",
+        },
+        "Indian Billi": {
+          overview:
+            "Hardy, independent, and incredibly adaptive to Indian climates and homes.",
+          food: "Home-cooked chicken/fish, or standard cat kibble. Ensure access to clean water.",
+          grooming: "Low maintenance. Occasional brushing and flea checks.",
+          exercise:
+            "Active and agile, especially outdoors. Needs minimal stimulation.",
+          funFact:
+            "Indian Billis are highly street-smart and often live up to 15+ years with care.",
+          tips: [
+            "Vaccinate early and schedule yearly vet visits.",
+            "Provide shade and clean water in summer.",
+            "Let them roam safely if you're in a pet-friendly neighborhood.",
+          ],
+          link: "https://petkeen.com/indian-domestic-cat/",
+        },
+        "New Zealand White": {
+          overview: "Gentle and calm, great for beginners.",
+          food: "Unlimited hay, rabbit pellets, leafy greens.",
+          grooming: "Brush weekly, trim nails monthly.",
+          exercise: "Playpen time with chew toys.",
+          funFact: "Used in research but adored as pets.",
+          tips: [
+            "Provide tunnels and chew toys.",
+            "Avoid wire-bottom cages – use soft bedding.",
+            "Keep away from direct heat and sun.",
+          ],
+          link: "https://petkeen.com/new-zealand-white-rabbit/",
+        },
+        "Holland Lop": {
+          overview: "Small, cuddly, and gentle temperament.",
+          food: "Timothy hay, pellets, veggies like parsley.",
+          grooming: "Weekly grooming and nail trimming.",
+          exercise: "Supervised playtime indoors or in a pen.",
+          funFact: "Their floppy ears and tiny size are iconic.",
+          tips: [
+            "Check ears weekly for wax buildup.",
+            "Provide quiet hiding spots to rest.",
+            "Offer chew-safe toys regularly.",
+          ],
+          link: "https://rabbitbreeders.us/holland-lop-rabbits/",
+        },
+      };
+
+      function showBreeds(petType) {
+        currentPet = petType;
+        document.getElementById("pets").style.display = "none";
+        document.getElementById("breeds").style.display = "block";
+        document.getElementById("info").style.display = "none";
+
+        const breedList = breedData[petType];
+        document.getElementById("breed-title").innerText = `${petType} Breeds`;
+
+        const breedCards = breedList
+          .map(
+            (breed) => `
+            <div class="breed-card" onclick="showInfo('${breed.name}')">
+              <img src="${breed.img}" alt="${breed.name}" />
+              <h4>${breed.name}</h4>
+            </div>
+          `
+          )
+          .join("");
+
+        document.getElementById("breed-list").innerHTML = breedCards;
+      }
+      function showInfo(breedName) {
+        const info = breedInfo[breedName];
+        document.getElementById("breeds").style.display = "none";
+        document.getElementById("info").style.display = "block";
+        document.getElementById(
+          "info-title"
+        ).innerText = `${breedName} Care Tips & Resources`;
+
+        document.getElementById("breed-details").innerHTML = `
+            <h3>Overview</h3><p>${info.overview}</p>
+            <h3>Ideal Food</h3><p>${info.food}</p>
+            <h3>Grooming & Health</h3><p>${info.grooming}</p>
+            <h3>Exercise & Behavior</h3><p>${info.exercise}</p>
+            <h3>Fun Fact</h3><p>${info.funFact}</p>
+            <h3>Basic Tips & Advice</h3>
+            <ul>${info.tips.map((tip) => `<li>${tip}</li>`).join("")}</ul>
+            <p><a href="${
+              info.link
+            }" target="_blank">Read More Resources</a></p>
+          `;
+      }
+      function goBackToPets() {
+        document.getElementById("pets").style.display = "block";
+        document.getElementById("breeds").style.display = "none";
+        document.getElementById("info").style.display = "none";
+      }
+      function goBackToBreeds() {
+        showBreeds(currentPet);
+      }
+      
+src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+document.addEventListener("DOMContentLoaded", function () {
+  const contactForm = document.querySelector(".contact-form");
+
+  contactForm.addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const name = document.querySelector('input[name="name"]').value.trim();
+    const email = document.querySelector('input[name="email"]').value.trim();
+    const phone = document.querySelector('#phone').value.trim(); // Fixed this line
+    const message = document.querySelector('textarea[name="message"]').value.trim();
+
+    // Basic validation
+    if (!name || !email || !message) {
+      alert("Please fill in all required fields");
+      return;
+    }
+
+    const formData = { name, email, phone, message };
+
+    try {
+      const response = await fetch("http://localhost:5000/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        alert("Message sent successfully!");
+        contactForm.reset();
+      } else {
+        alert("Failed to send message. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      alert("Server error. Please try later.");
+    }
+  });
+});
+
+
+    </script>
+  </body>
+</html>
